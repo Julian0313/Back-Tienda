@@ -11,6 +11,7 @@ namespace UnidadTrabajo.Implementacion
         private readonly TiendaContexto _contexto;
         private IProductoRepositorio _productoRepositorio;
         private IListaDesplegableRepositorio _listaDesplegableRepositorio;
+        private ITiendaRepositorio _tiendaRepositorio;
         private readonly IMapper _mapper;
 
         public UnidadTrabajo(TiendaContexto contexto, IMapper mapper)
@@ -41,6 +42,18 @@ namespace UnidadTrabajo.Implementacion
                     _listaDesplegableRepositorio = new ListaDesplegableRepositorio(_contexto);
                 }
                 return _listaDesplegableRepositorio;
+            }
+        }
+
+        public ITiendaRepositorio TiendaRepositorio 
+        {
+            get
+            {
+                if (_tiendaRepositorio  == null)
+                {
+                    _tiendaRepositorio  = new TiendaRepositorio(_contexto, _mapper);
+                }
+                return _tiendaRepositorio ;
             }
         }
 

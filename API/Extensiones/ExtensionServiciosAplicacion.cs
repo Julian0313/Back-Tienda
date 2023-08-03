@@ -22,9 +22,15 @@ namespace API.Extensiones
             });
             services.AddScoped<IProductoRepositorio, ProductoRepositorio>();
             services.AddScoped<IProductoLogica, ProductoLogica>();
+
             services.AddScoped<IListaDesplegableRepositorio, ListaDesplegableRepositorio>();
             services.AddScoped<IListaDesplegableLogica, ListaDesplegableLogica>();
+
+            services.AddScoped<ITiendaRepositorio, TiendaRepositorio>();
+            services.AddScoped<ITiendaLogica, TiendaLogica>();
+
             services.AddScoped<IUnidadTrabajo, UnidadTrabajo.Implementacion.UnidadTrabajo>();
+
             services.AddAutoMapper(typeof(PerfildeMapeo));
             services.AddCors(opt =>
             {

@@ -34,7 +34,7 @@ namespace API.Controllers
         [Route("Crear-Producto")]
         public async Task<IActionResult> CrearProducto(Producto producto)
         {
-            return Ok(_productoLogica.CrearProductoLogica(producto));
+            return Ok(await _productoLogica.CrearProductoLogica(producto));
         }
 
         [HttpPut]
@@ -48,7 +48,7 @@ namespace API.Controllers
         [Route("Eliminar-Producto")]
         public async Task<IActionResult> EliminarProducto(int id)
         {
-            return Ok(_productoLogica.EliminarProductoLogica(id));
+            return Ok(await _productoLogica.EliminarProductoLogica(id));
         }
 
     }
