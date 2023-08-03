@@ -5,7 +5,7 @@ namespace Repositorio.Interfaz
 {
     public interface ITiendaRepositorio
     {
-        Task<Paginacion<ProductoRtn>> ObtenerProductoAsync(ProductoParametros parametros);
+        Task<Paginacion<ProductoRtn>> ObtenerProductoAsync(Parametros parametros);
         Task<ProductoRtn> ObtenerProductoIdAsync(int id);
     }
 }

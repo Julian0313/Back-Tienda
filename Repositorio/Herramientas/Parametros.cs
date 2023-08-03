@@ -1,6 +1,6 @@
 namespace Repositorio.Herramientas
 {
-    public class ProductoParametros
+    public class Parametros
     {
         private const int MaxPageSize = 50;
         public int PageIndex { get; set; } = 1;

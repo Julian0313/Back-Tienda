@@ -7,6 +7,7 @@ namespace UnidadTrabajo.Interfaz
         IProductoRepositorio ProductoRepositorio {get; }
         IListaDesplegableRepositorio ListaDesplegableRepositorio {get; }
         ITiendaRepositorio TiendaRepositorio {get; }
+        IEmpleadoRepositorio EmpleadoRepositorio {get; }
         Task GuardarCambiosAsync();
     }
 }

@@ -9,9 +9,10 @@ namespace UnidadTrabajo.Implementacion
     public class UnidadTrabajo : IUnidadTrabajo
     {
         private readonly TiendaContexto _contexto;
-        private IProductoRepositorio _productoRepositorio;
-        private IListaDesplegableRepositorio _listaDesplegableRepositorio;
-        private ITiendaRepositorio _tiendaRepositorio;
+        private IProductoRepositorio _productoRepo;
+        private IListaDesplegableRepositorio _listaDesplegableRepo;
+        private ITiendaRepositorio _tiendaRepo;
+        private IEmpleadoRepositorio _empleadoRepo;
         private readonly IMapper _mapper;
 
         public UnidadTrabajo(TiendaContexto contexto, IMapper mapper)
@@ -25,11 +26,22 @@ namespace UnidadTrabajo.Implementacion
         {
             get
             {
-                if (_productoRepositorio == null)
+                if (_productoRepo == null)
                 {
-                    _productoRepositorio = new ProductoRepositorio(_contexto, _mapper);
+                    _productoRepo = new ProductoRepositorio(_contexto, _mapper);
                 }
-                return _productoRepositorio;
+                return _productoRepo;
+            }
+        }
+        public IEmpleadoRepositorio EmpleadoRepositorio
+        {
+            get
+            {
+                if (_empleadoRepo == null)
+                {
+                    _empleadoRepo = new EmpleadoRepositorio(_contexto, _mapper);
+                }
+                return _empleadoRepo;
             }
         }
 
@@ -37,11 +49,11 @@ namespace UnidadTrabajo.Implementacion
         {
             get
             {
-                if (_listaDesplegableRepositorio == null)
+                if (_listaDesplegableRepo == null)
                 {
-                    _listaDesplegableRepositorio = new ListaDesplegableRepositorio(_contexto);
+                    _listaDesplegableRepo = new ListaDesplegableRepositorio(_contexto);
                 }
-                return _listaDesplegableRepositorio;
+                return _listaDesplegableRepo;
             }
         }
 
@@ -49,11 +61,11 @@ namespace UnidadTrabajo.Implementacion
         {
             get
             {
-                if (_tiendaRepositorio  == null)
+                if (_tiendaRepo  == null)
                 {
-                    _tiendaRepositorio  = new TiendaRepositorio(_contexto, _mapper);
+                    _tiendaRepo  = new TiendaRepositorio(_contexto, _mapper);
                 }
-                return _tiendaRepositorio ;
+                return _tiendaRepo ;
             }
         }
 

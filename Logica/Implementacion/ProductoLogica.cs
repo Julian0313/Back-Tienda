@@ -64,7 +64,7 @@ namespace LogicaNegocio.Implementacion
             return RespuestaErrores.RespuestaOkay<string>("Producto eliminado correctamente id : " + id);
         }
 
-        public async Task<Respuesta<Paginacion<ProductoRtn>>> ObtenerProductoLogica(ProductoParametros parametros)
+        public async Task<Respuesta<Paginacion<ProductoRtn>>> ObtenerProductoLogica(Parametros parametros)
         {
             Paginacion<ProductoRtn> producto = await _productoRepo.ObtenerProductoAsync(parametros);
             return producto != null ?
@@ -76,7 +76,7 @@ namespace LogicaNegocio.Implementacion
         {
             var productoId = await _productoRepo.ObtenerProductoIdAsync(id);
             return productoId != null ?
-            RespuestaErrores.RespuestaOkay<ProductoRtn>(productoId):
+            RespuestaErrores.RespuestaOkay(productoId):
             RespuestaErrores.RespuestaSinRegistros<ProductoRtn>("No exsiste un producto con id : " + id);
 
         }

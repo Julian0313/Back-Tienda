@@ -18,7 +18,7 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("Obtener-Productos")]
-        public async Task<IActionResult> ObtenerProductos([FromQuery] ProductoParametros parametros)
+        public async Task<IActionResult> ObtenerProductos([FromQuery] Parametros parametros)
         {
             return Ok(await _productoLogica.ObtenerProductoLogica(parametros));
         }

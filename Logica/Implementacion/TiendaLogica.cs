@@ -14,7 +14,7 @@ namespace Logica.Implementacion
             _tiendaRepo = tiendaRepo;
         }
 
-        public async Task<Respuesta<Paginacion<ProductoRtn>>> ObtenerProductoLogica(ProductoParametros parametros)
+        public async Task<Respuesta<Paginacion<ProductoRtn>>> ObtenerProductoLogica(Parametros parametros)
         {
             Paginacion<ProductoRtn> producto = await _tiendaRepo.ObtenerProductoAsync(parametros);
             return producto != null ?

@@ -54,7 +54,7 @@ namespace Repositorio.Implementacion
 
         }
 
-        public async Task<Paginacion<ProductoRtn>> ObtenerProductoAsync(ProductoParametros parametros)
+        public async Task<Paginacion<ProductoRtn>> ObtenerProductoAsync(Parametros parametros)
         {
             var productos = _contexto.Producto.AsQueryable();
 
