@@ -1,4 +1,5 @@
 using Dominio.Entidades;
+using Logica.Herramientas;
 using Logica.Interfaz;
 using Repositorio.Interfaz;
 using UnidadTrabajo.Interfaz;
@@ -16,28 +17,20 @@ namespace Logica.Implementacion
             _listaRepo = listaRepo;
         }
 
-        public async Task<IReadOnlyList<Categoria>> ObtenerCategoria()
+        public async Task<Respuesta<IReadOnlyList<Categoria>>> ObtenerCategoria()
         {
-            try 
-            {
-                return await _listaRepo.ObtenerCategoriaAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener categoria.", ex);
-            }
+            IReadOnlyList<Categoria> categoria = await _listaRepo.ObtenerCategoriaAsync();
+            return categoria != null ?  
+            RespuestaErrores.RespuestaOkay(categoria):
+            RespuestaErrores.RespuestaSinRegistros<IReadOnlyList<Categoria>>("No hay registros de categoria");
         }
 
-        public async Task<IReadOnlyList<Estado>> ObtenerEstado()
+        public async Task<Respuesta<IReadOnlyList<Estado>>> ObtenerEstado()
         {
-            try 
-            {
-                return await _listaRepo.ObtenerEstadoAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener estado.", ex);
-            }
+             IReadOnlyList<Estado> estado = await _listaRepo.ObtenerEstadoAsync();
+             return estado != null ?
+             RespuestaErrores.RespuestaOkay(estado):
+             RespuestaErrores.RespuestaSinRegistros<IReadOnlyList<Estado>>("No hay registros de estado");
         }
     }
 }

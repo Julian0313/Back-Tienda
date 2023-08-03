@@ -20,8 +20,7 @@ namespace API.Controllers
         [Route("Obtener-Productos")]
         public async Task<IActionResult> ObtenerProductos([FromQuery] ProductoParametros parametros)
         {
-            var productos = await _productoLogica.ObtenerProductoLogica(parametros);
-            return Ok(productos);
+            return Ok(await _productoLogica.ObtenerProductoLogica(parametros));
         }
 
         [HttpGet]
@@ -35,24 +34,21 @@ namespace API.Controllers
         [Route("Crear-Producto")]
         public async Task<IActionResult> CrearProducto(Producto producto)
         {
-            await _productoLogica.CrearProductoLogica(producto);
-            return Ok(new { message = "Producto creado exitosamente" });
+            return Ok(_productoLogica.CrearProductoLogica(producto));
         }
 
         [HttpPut]
         [Route("Editar-Producto")]
         public async Task<IActionResult> EditarProducto(Producto producto)
-        {
-            await _productoLogica.EditarProductoLogica(producto);
-            return Ok(new { message = "Producto editado exitosamente" });
+        {           
+            return Ok(await _productoLogica.EditarProductoLogica(producto));
         }
 
         [HttpDelete]
         [Route("Eliminar-Producto")]
         public async Task<IActionResult> EliminarProducto(int id)
         {
-            await _productoLogica.EliminarProductoLogica(id);
-            return Ok(new { message = "Producto eliminado exitosamente" });
+            return Ok(_productoLogica.EliminarProductoLogica(id));
         }
 
     }

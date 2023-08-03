@@ -1,4 +1,5 @@
 using Dominio.Entidades;
+using Logica.Herramientas;
 using LogicaNegocio.Interfaz;
 using Repositorio.Herramientas;
 using Repositorio.Interfaz;
@@ -17,84 +18,67 @@ namespace LogicaNegocio.Implementacion
             _unidadTrabajo = unidadTrabajo;
         }
 
-        public async Task<string> CrearProductoLogica(Producto producto)
+        public async Task<Respuesta<string>> CrearProductoLogica(Producto producto)
         {
-            try
+            var crearProducto = await _productoRepo.ObtenerProductoIdAsync(producto.idProducto);
+            if (crearProducto != null)
             {
-                await _productoRepo.CrearProductoAsync(producto);
-                await _unidadTrabajo.GuardarCambiosAsync();
+                return RespuestaErrores.RespuestaError<string>("Ya exsiste un producto con id : " + producto.idProducto);
+            }
+            await _productoRepo.CrearProductoAsync(producto);
+            await _unidadTrabajo.GuardarCambiosAsync();
 
-                return "Producto creado correctamente";
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al crear el producto.", ex);
-            }
+            return RespuestaErrores.RespuestaOkay<string>("Producto creado correctamente id : " + producto.idProducto);
+
         }
 
-        public async Task EditarProductoLogica(Producto producto)
+        public async Task<Respuesta<string>> EditarProductoLogica(Producto producto)
         {
-            try
+
+            var editarProducto = await _productoRepo.ObtenerProductoIdAsync(producto.idProducto);
+
+            if (editarProducto == null)
             {
-                var editarProducto = await _productoRepo.ObtenerProductoIdAsync(producto.idProducto);
-
-                if (editarProducto == null)
-                {
-                    throw new InvalidOperationException("No se encontró el producto con el ID proporcionado");
-                }
-
-                await _productoRepo.EditarProductoAsync(producto);
-                await _unidadTrabajo.GuardarCambiosAsync();
-
+                return RespuestaErrores.RespuestaError<string>("No exsiste un producto con id : " + producto.idProducto);
             }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al editar el producto.", ex);
-            }
+
+            await _productoRepo.EditarProductoAsync(producto);
+            await _unidadTrabajo.GuardarCambiosAsync();
+
+            return RespuestaErrores.RespuestaOkay<string>("Producto editado correctamente id : " + producto.idProducto);
+
         }
 
-        public async Task EliminarProductoLogica(int id)
+        public async Task<Respuesta<string>> EliminarProductoLogica(int id)
         {
-             try
-            {
-                var eliminarProducto = await _productoRepo.ObtenerProductoIdAsync(id);
+            var eliminarProducto = await _productoRepo.ObtenerProductoIdAsync(id);
 
-                if (eliminarProducto == null)
-                {
-                    throw new InvalidOperationException("No se encontró el producto con el ID proporcionado");
-                }
-
-                await _productoRepo.EliminarProductoAsync(id);
-                await _unidadTrabajo.GuardarCambiosAsync();
-            }
-            catch (Exception ex)
+            if (eliminarProducto == null)
             {
-                throw new Exception("Error al eliminar el producto.", ex);
+                return RespuestaErrores.RespuestaError<string>("No exsiste un producto con id : " + id);
             }
+
+            await _productoRepo.EliminarProductoAsync(id);
+            await _unidadTrabajo.GuardarCambiosAsync();
+
+            return RespuestaErrores.RespuestaOkay<string>("Producto eliminado correctamente id : " + id);
         }
 
-        public async Task<Paginacion<ProductoRtn>> ObtenerProductoLogica(ProductoParametros parametros)
+        public async Task<Respuesta<Paginacion<ProductoRtn>>> ObtenerProductoLogica(ProductoParametros parametros)
         {
-            try
-            {
-                return await _productoRepo.ObtenerProductoAsync(parametros);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener los productos.", ex);
-            }
+            Paginacion<ProductoRtn> producto = await _productoRepo.ObtenerProductoAsync(parametros);
+            return producto != null ?
+            RespuestaErrores.RespuestaOkay(producto) :
+            RespuestaErrores.RespuestaSinRegistros<Paginacion<ProductoRtn>>("No hay registros de productos");
         }
 
-        public async Task<ProductoRtn> ObtenerProductoIdLogica(int id)
+        public async Task<Respuesta<ProductoRtn>> ObtenerProductoIdLogica(int id)
         {
-            try
-            {
-                return await _productoRepo.ObtenerProductoIdAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al obtener el producto", ex);
-            }
+            var productoId = await _productoRepo.ObtenerProductoIdAsync(id);
+            return productoId != null ?
+            RespuestaErrores.RespuestaOkay<ProductoRtn>(productoId):
+            RespuestaErrores.RespuestaSinRegistros<ProductoRtn>("No exsiste un producto con id : " + id);
+
         }
     }
 }

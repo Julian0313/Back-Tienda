@@ -5,10 +5,10 @@ namespace LogicaNegocio.Interfaz
 {
     public interface IProductoLogica
     {
-        Task<Paginacion<ProductoRtn>> ObtenerProductoLogica(ProductoParametros parametros);
-        Task<ProductoRtn> ObtenerProductoIdLogica(int id);
-        Task<string> CrearProductoLogica(Producto producto);
-        Task EditarProductoLogica(Producto producto);
-        Task EliminarProductoLogica(int id);
+        Task<Respuesta<Paginacion<ProductoRtn>>> ObtenerProductoLogica(ProductoParametros parametros);
+        Task<Respuesta<ProductoRtn>> ObtenerProductoIdLogica(int id);
+        Task<Respuesta<string>> CrearProductoLogica(Producto producto);
+        Task<Respuesta<string>> EditarProductoLogica(Producto producto);
+        Task<Respuesta<string>> EliminarProductoLogica(int id);
     }
 }

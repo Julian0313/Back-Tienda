@@ -4,7 +4,7 @@ namespace Logica.Interfaz
 {
     public interface IListaDesplegableLogica
     {
-        Task<IReadOnlyList<Categoria>> ObtenerCategoria();
-        Task<IReadOnlyList<Estado>> ObtenerEstado();
+        Task<Respuesta<IReadOnlyList<Categoria>>> ObtenerCategoria();
+        Task<Respuesta<IReadOnlyList<Estado>>> ObtenerEstado();
     }
 }
