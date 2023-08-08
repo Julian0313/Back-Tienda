@@ -17,7 +17,7 @@ namespace Logica.Implementacion
         public async Task<Respuesta<Paginacion<ProductoRtn>>> ObtenerProductoLogica(Parametros parametros)
         {
             Paginacion<ProductoRtn> producto = await _tiendaRepo.ObtenerProductoAsync(parametros);
-            return producto != null ?
+            return producto.Contador > 0 ?
             RespuestaErrores.RespuestaOkay(producto) :
             RespuestaErrores.RespuestaSinRegistros<Paginacion<ProductoRtn>>("No hay registros de productos");
         }

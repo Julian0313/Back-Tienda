@@ -14,6 +14,11 @@ namespace Repositorio.Herramientas
             CreateMap<Empleado , EmpleadoRtn>()
                 .ForMember(dest => dest.fkIdCargo, opt => opt.MapFrom(src => src.Cargo.nombre))
                 .ForMember(dest => dest.fkIdEstado, opt => opt.MapFrom(src => src.Estado.nombre));
+            
+            CreateMap<Cliente , ClienteRtn>()            
+                .ForMember(dest => dest.fkIdEstado, opt => opt.MapFrom(src => src.Estado.nombre))
+                .ForMember(dest => dest.fkIdUsuario, opt => opt.MapFrom(src => src.Usuario.usuario));
+
         }
     }
 }

@@ -29,12 +29,18 @@ namespace API.Extensiones
             services.AddScoped<ITiendaRepositorio, TiendaRepositorio>();
             services.AddScoped<ITiendaLogica, TiendaLogica>();
 
+            services.AddScoped<IEmpleadoRepositorio, EmpleadoRepositorio>();
+            services.AddScoped<IEmpleadoLogica, EmpleadoLogica>();
+
+            services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
+            services.AddScoped<IClienteLogica, ClienteLogica>();
+
             services.AddScoped<IUnidadTrabajo, UnidadTrabajo.Implementacion.UnidadTrabajo>();
 
             services.AddAutoMapper(typeof(PerfildeMapeo));
             services.AddCors(opt =>
             {
-                opt.AddPolicy("CorsPolicy", policy => 
+                opt.AddPolicy("CorsPolicy", policy =>
                 {
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });

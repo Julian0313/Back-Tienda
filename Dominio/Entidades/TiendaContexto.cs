@@ -12,6 +12,8 @@ namespace Dominio.Entidades
         public DbSet<Estado> Estado { get; set; }
         public DbSet<Empleado> Empleado { get; set; }
         public DbSet<Cargo> Cargo { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Categoria>()
@@ -23,12 +25,20 @@ namespace Dominio.Entidades
             modelBuilder.Entity<Cargo>()
             .HasKey(ca => ca.idCargo);
 
+            modelBuilder.Entity<Usuario>()
+            .HasKey(u => u.idUsuario);
+
             modelBuilder.Entity<Producto>()
             .HasKey(p => p.idProducto);
 
             modelBuilder.Entity<Empleado>()
             .HasKey(em => em.idEmpleado);
+
+            modelBuilder.Entity<Cliente>()
+            .HasKey(cli => cli.idCliente);
             
+            //Llaves foraneas 
+
             modelBuilder.Entity<Producto>()
                 .HasOne(p => p.Categoria) // Establecer la navegación a la entidad Categoria
                 .WithMany() // La entidad Categoria tiene múltiples productos
@@ -40,14 +50,29 @@ namespace Dominio.Entidades
                 .HasForeignKey(p => p.fkIdEstado);  
 
             modelBuilder.Entity<Empleado>()
-                .HasOne(p => p.Estado)
+                .HasOne(emp => emp.Estado)
                 .WithMany() 
                 .HasForeignKey(p => p.fkIdEstado); 
 
             modelBuilder.Entity<Empleado>()
-                .HasOne(ca => ca.Cargo)
+                .HasOne(emp => emp.Cargo)
                 .WithMany() 
                 .HasForeignKey(p => p.fkIdCargo);  
+
+            modelBuilder.Entity<Cliente>()
+                .HasOne(cli => cli.Estado)
+                .WithMany()
+                .HasForeignKey(cli => cli.fkIdEstado);
+
+            modelBuilder.Entity<Cliente>()
+                .HasOne(cli => cli.Usuario)
+                .WithMany()
+                .HasForeignKey(cli => cli.fkIdUsuario);
+
+            modelBuilder.Entity<Usuario>()
+                .HasOne(usu => usu.Estado)
+                .WithMany()
+                .HasForeignKey(usu => usu.fkIdEstado);
 
             base.OnModelCreating(modelBuilder);
         }

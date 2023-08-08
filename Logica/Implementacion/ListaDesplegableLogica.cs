@@ -9,15 +9,20 @@ namespace Logica.Implementacion
     public class ListaDesplegableLogica : IListaDesplegableLogica
     {
         private readonly IListaDesplegableRepositorio _listaRepo;
-        private readonly IUnidadTrabajo _unidadTrabajo;
-        public ListaDesplegableLogica(IListaDesplegableRepositorio listaRepo,
-        IUnidadTrabajo unidadTrabajo)
+        public ListaDesplegableLogica(IListaDesplegableRepositorio listaRepo)
         {
-            _unidadTrabajo = unidadTrabajo;
             _listaRepo = listaRepo;
         }
 
-        public async Task<Respuesta<IReadOnlyList<Categoria>>> ObtenerCategoria()
+        public async Task<Respuesta<IReadOnlyList<Cargo>>> ObtenerCargoLogica()
+        {
+            IReadOnlyList<Cargo> cargo = await _listaRepo.ObtenerCargoAsync();
+            return cargo != null ?
+            RespuestaErrores.RespuestaOkay(cargo):
+            RespuestaErrores.RespuestaSinRegistros<IReadOnlyList<Cargo>>("No hay registros de cargo");
+        }
+
+        public async Task<Respuesta<IReadOnlyList<Categoria>>> ObtenerCategoriaLogica()
         {
             IReadOnlyList<Categoria> categoria = await _listaRepo.ObtenerCategoriaAsync();
             return categoria != null ?  
@@ -25,7 +30,7 @@ namespace Logica.Implementacion
             RespuestaErrores.RespuestaSinRegistros<IReadOnlyList<Categoria>>("No hay registros de categoria");
         }
 
-        public async Task<Respuesta<IReadOnlyList<Estado>>> ObtenerEstado()
+        public async Task<Respuesta<IReadOnlyList<Estado>>> ObtenerEstadoLogica()
         {
              IReadOnlyList<Estado> estado = await _listaRepo.ObtenerEstadoAsync();
              return estado != null ?

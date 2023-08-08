@@ -6,5 +6,6 @@ namespace Repositorio.Interfaz
     {
         Task<IReadOnlyList<Categoria>> ObtenerCategoriaAsync();
         Task<IReadOnlyList<Estado>> ObtenerEstadoAsync();
+        Task<IReadOnlyList<Cargo>> ObtenerCargoAsync();
     }
 }

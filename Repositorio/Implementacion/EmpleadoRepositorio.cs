@@ -31,7 +31,7 @@ namespace Repositorio.Implementacion
 
             editarEmpleado.documento = empleado.documento;
             editarEmpleado.primerNombre = empleado.primerNombre;
-            editarEmpleado.SegundoNombre = empleado.SegundoNombre;
+            editarEmpleado.segundoNombre = empleado.segundoNombre;
             editarEmpleado.primerApellido = empleado.primerApellido;
             editarEmpleado.segundoApellido = empleado.segundoApellido;
             editarEmpleado.telefono = empleado.telefono;
@@ -56,7 +56,7 @@ namespace Repositorio.Implementacion
 
         public async Task<Paginacion<EmpleadoRtn>> ObtenerEmpleadoAsync(Parametros parametros)
         {
-             var empleados = _contexto.Empleado.AsQueryable();
+            var empleados = _contexto.Empleado.AsQueryable();
 
             if (!string.IsNullOrEmpty(parametros.Buscar))
             {

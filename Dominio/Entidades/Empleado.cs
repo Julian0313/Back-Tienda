@@ -7,7 +7,7 @@ namespace Dominio.Entidades
         public int fkIdEstado { get; set; }
         public string documento { get; set; }
         public string primerNombre { get; set; }
-        public string SegundoNombre { get; set; }
+        public string segundoNombre { get; set; }
         public string primerApellido { get; set; }
         public string segundoApellido { get; set; }
         public string telefono { get; set; }

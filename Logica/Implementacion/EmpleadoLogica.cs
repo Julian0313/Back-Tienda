@@ -62,7 +62,7 @@ namespace Logica.Implementacion
 
         public async Task<Respuesta<EmpleadoRtn>> ObtenerEmpleadoIdLogica(int id)
         {
-             var empleadoId = await _empleadoRepo.ObtenerEmpleadoIdAsync(id);
+            var empleadoId = await _empleadoRepo.ObtenerEmpleadoIdAsync(id);
             return empleadoId != null ?
             RespuestaErrores.RespuestaOkay(empleadoId):
             RespuestaErrores.RespuestaSinRegistros<EmpleadoRtn>("No exsiste un empleado con id : " + id);
@@ -71,7 +71,7 @@ namespace Logica.Implementacion
         public async Task<Respuesta<Paginacion<EmpleadoRtn>>> ObtenerEmpleadoLogica(Parametros parametros)
         {
             Paginacion<EmpleadoRtn> empleado = await _empleadoRepo.ObtenerEmpleadoAsync(parametros);
-            return empleado != null ?
+            return empleado.Contador > 0 ?
             RespuestaErrores.RespuestaOkay(empleado) :
             RespuestaErrores.RespuestaSinRegistros<Paginacion<EmpleadoRtn>>("No hay registros de empleados");
         }

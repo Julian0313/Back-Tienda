@@ -17,14 +17,21 @@ namespace API.Controllers
         [Route("Obtener-Categoria")]
         public async Task<IActionResult> ObtenerCategoria()
         {
-            return Ok(await _listaLogica.ObtenerCategoria());
+            return Ok(await _listaLogica.ObtenerCategoriaLogica());
         }
 
         [HttpGet]
         [Route("Obtener-Estado")]
         public async Task<IActionResult> ObtenerEstado()
         {
-            return Ok(await _listaLogica.ObtenerEstado());
+            return Ok(await _listaLogica.ObtenerEstadoLogica());
+        }
+        
+        [HttpGet]
+        [Route("Obtener-Cargo")]
+        public async Task<IActionResult> ObtenerCargo()
+        {
+            return Ok(await _listaLogica.ObtenerCargoLogica());
         }
     }
 }

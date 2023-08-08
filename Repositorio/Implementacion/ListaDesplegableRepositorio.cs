@@ -12,6 +12,11 @@ namespace Repositorio.Implementacion
             _contexto = contexto;
         }
 
+        public async Task<IReadOnlyList<Cargo>> ObtenerCargoAsync()
+        {
+            return await _contexto.Cargo.ToListAsync();
+        }
+
         public async Task<IReadOnlyList<Categoria>> ObtenerCategoriaAsync()
         {
             return await _contexto.Categoria.ToListAsync();
