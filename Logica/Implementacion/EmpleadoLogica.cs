@@ -19,15 +19,15 @@ namespace Logica.Implementacion
 
         public async Task<Respuesta<string>> CrearEmpleadoLogica(Empleado empleado)
         {
-            var crearEmpleado = await _empleadoRepo.ObtenerEmpleadoIdAsync(empleado.idEmpleado);
+            var crearEmpleado = await _empleadoRepo.ObtenerEmpleadoDocumentoAsync(empleado.documento);
             if (crearEmpleado != null)
             {
-                return RespuestaErrores.RespuestaError<string>("Ya exsiste un empleado con id : " + empleado.idEmpleado);
+                return RespuestaErrores.RespuestaError<string>("Ya exsiste un empleado con id : " + empleado.documento);
             }
             await _empleadoRepo.CrearEmpleadoAsync(empleado);
             await _unidadTrabajo.GuardarCambiosAsync();
 
-            return RespuestaErrores.RespuestaOkay<string>("Empleado creado correctamente id : " + empleado.idEmpleado);
+            return RespuestaErrores.RespuestaOkay<string>("Empleado con id : "+ empleado.documento +" creado correctamente");
         }
 
         public async Task<Respuesta<string>> EditarEmpleadoLogica(Empleado empleado)
@@ -36,13 +36,13 @@ namespace Logica.Implementacion
 
             if (editarEmpleado == null)
             {
-                return RespuestaErrores.RespuestaError<string>("No exsiste un empleado con id : " + empleado.idEmpleado);
+                return RespuestaErrores.RespuestaError<string>("No exsiste un empleado con id : " + empleado.documento);
             }
 
             await _empleadoRepo.EditarEmpleadoAsync(empleado);
             await _unidadTrabajo.GuardarCambiosAsync();
 
-            return RespuestaErrores.RespuestaOkay<string>("Empleado editado correctamente id : " + empleado.idEmpleado);
+            return RespuestaErrores.RespuestaOkay<string>("Empleado con id : "+ editarEmpleado.documento +" editado correctamente");
         }
 
         public async Task<Respuesta<string>> EliminarEmpleadoLogica(int id)
@@ -57,14 +57,14 @@ namespace Logica.Implementacion
             await _empleadoRepo.EliminarEmpleadoAsync(id);
             await _unidadTrabajo.GuardarCambiosAsync();
 
-            return RespuestaErrores.RespuestaOkay<string>("Empleado eliminado correctamente id : " + id);
+            return RespuestaErrores.RespuestaOkay<string>("Empleado con id : "+ eliminarEmpleado.documento +" eliminado correctamente");
         }
 
         public async Task<Respuesta<EmpleadoRtn>> ObtenerEmpleadoIdLogica(int id)
         {
             var empleadoId = await _empleadoRepo.ObtenerEmpleadoIdAsync(id);
             return empleadoId != null ?
-            RespuestaErrores.RespuestaOkay(empleadoId):
+            RespuestaErrores.RespuestaOkay(empleadoId) :
             RespuestaErrores.RespuestaSinRegistros<EmpleadoRtn>("No exsiste un empleado con id : " + id);
         }
 

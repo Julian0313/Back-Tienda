@@ -7,6 +7,7 @@ namespace Repositorio.Interfaz
     {
         Task<Paginacion<ClienteRtn>> ObtenerClienteAsync(Parametros parametros);
         Task<ClienteRtn> ObtenerClienteIdAsync(int id);
+        Task<ClienteRtn> ObtenerClienteCorreoAsync(string correo);
         Task CrearClienteAsync(Cliente cliente);
         Task EditarClienteAsync(Cliente cliente);
         Task EliminarClienteAsync(int id);

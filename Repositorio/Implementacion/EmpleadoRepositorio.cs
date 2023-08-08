@@ -60,7 +60,7 @@ namespace Repositorio.Implementacion
 
             if (!string.IsNullOrEmpty(parametros.Buscar))
             {
-                empleados = empleados.Where(p => p.documento.ToLower().Contains(parametros.Buscar));
+                empleados = empleados.Where(p => p.documento.ToLower().Contains(parametros.Buscar) | p.primerNombre.ToLower().Contains(parametros.Buscar));
             }
 
             var contador = await empleados.CountAsync();
@@ -81,6 +81,17 @@ namespace Repositorio.Implementacion
 
             return paginacion;
         }
+
+        public async Task<EmpleadoRtn> ObtenerEmpleadoDocumentoAsync(string documento)
+        {
+             var empleado = await _contexto.Empleado
+                .Include(e => e.Estado)
+                .Include(c => c.Cargo)
+                .FirstOrDefaultAsync(x => x.documento == documento);
+
+            return _mapper.Map<EmpleadoRtn>(empleado);
+        }
+
 
         public async Task<EmpleadoRtn> ObtenerEmpleadoIdAsync(int id)
         {

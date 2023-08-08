@@ -61,7 +61,7 @@ namespace Repositorio.Implementacion
 
             if (!string.IsNullOrEmpty(parametros.Buscar))
             {
-                clientes = clientes.Where(p => p.identificacion.ToLower().Contains(parametros.Buscar));
+                clientes = clientes.Where(p => p.identificacion.ToLower().Contains(parametros.Buscar) | p.email.ToLower().Contains(parametros.Buscar));
             }
 
             var contador = await clientes.CountAsync();
@@ -81,6 +81,16 @@ namespace Repositorio.Implementacion
             );
 
             return paginacion;
+        }
+
+        public async Task<ClienteRtn> ObtenerClienteCorreoAsync(string correo)
+        {
+            var cliente = await _contexto.Cliente
+                  .Include(e => e.Estado)
+                  .Include(u => u.Usuario)
+                  .FirstOrDefaultAsync(x => x.email == correo);
+
+            return _mapper.Map<ClienteRtn>(cliente);
         }
 
         public async Task<ClienteRtn> ObtenerClienteIdAsync(int id)
