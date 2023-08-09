@@ -14,12 +14,12 @@ namespace Logica.Implementacion
             _usuarioRepo = usuarioRepo;
         }
 
-        public async Task<Respuesta<IEnumerable<Usuario>>> ObtenerUsuarioLogica(Parametros parametros)
+        public async Task<Respuesta<Paginacion<UsuarioRtn>>> ObtenerUsuarioLogica(Parametros parametros)
         {
-            IEnumerable<Usuario> usuario = await _usuarioRepo.ObtenerUsuarioAsync(parametros);
+            Paginacion<UsuarioRtn> usuario = await _usuarioRepo.ObtenerUsuarioAsync(parametros);
             return usuario != null ?
             RespuestaErrores.RespuestaOkay(usuario) :
-            RespuestaErrores.RespuestaSinRegistros<IEnumerable<Usuario>>("No existe usuario con este correo");
+            RespuestaErrores.RespuestaSinRegistros<Paginacion<UsuarioRtn>>("No existe usuario con este correo");
         }
     }
 }

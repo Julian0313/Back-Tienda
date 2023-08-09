@@ -6,6 +6,6 @@ namespace Logica.Interfaz
 {
     public interface IUsuarioLogica
     {
-         Task<Respuesta<IEnumerable<Usuario>>> ObtenerUsuarioLogica(Parametros parametros);
+         Task<Respuesta<Paginacion<UsuarioRtn>>> ObtenerUsuarioLogica(Parametros parametros);
     }
 }

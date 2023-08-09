@@ -19,6 +19,9 @@ namespace Repositorio.Herramientas
                 .ForMember(dest => dest.fkIdEstado, opt => opt.MapFrom(src => src.Estado.nombre))
                 .ForMember(dest => dest.fkIdUsuario, opt => opt.MapFrom(src => src.Usuario.usuario));
 
+            CreateMap<Usuario, UsuarioRtn>()
+                .ForMember(dest => dest.fkIdEstado, opt => opt.MapFrom(src => src.Estado.nombre));
+
         }
     }
 }

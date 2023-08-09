@@ -88,7 +88,7 @@ namespace UnidadTrabajo.Implementacion
             {
                 if(_usuarioRepo == null)
                 {
-                    _usuarioRepo = new UsuarioRepositorio(_contexto);
+                    _usuarioRepo = new UsuarioRepositorio(_contexto, _mapper);
                 }
                 return _usuarioRepo;
             }

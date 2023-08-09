@@ -18,10 +18,37 @@ namespace Repositorio.Implementacion
 
         public async Task CrearClienteAsync(Cliente cliente)
         {
-            cliente.fechaCreacion = DateTime.Now;
-            cliente.fechaModificacion = null;
-            cliente.fkIdEstado = 1;
-            _contexto.Cliente.Add(cliente);
+            var usuario = new Usuario
+            {
+                usuario = cliente.email,
+                contrasena = cliente.identificacion,
+                fkIdEstado = 1,
+                fechaCreacion = DateTime.Now,
+                fechaModificacion = null
+            };
+            _contexto.Usuario.Add(usuario);
+            await _contexto.SaveChangesAsync();
+
+            int idUsuarioGenerado = await _contexto.Usuario.MaxAsync(u => u.idUsuario);
+
+            var crearCliente = new Cliente
+            {
+                idCliente = 0,
+                identificacion = cliente.identificacion,
+                primerNombre = cliente.primerNombre,
+                segundoNombre = cliente.segundoNombre,
+                primerApellido = cliente.primerApellido,
+                segundoApellido = cliente.segundoApellido,
+                email = cliente.email,
+                direccion = cliente.direccion,
+                celular = cliente.celular,
+                fechaCreacion = DateTime.Now,
+                fechaModificacion = null,
+                fkIdEstado = 1,
+                fkIdUsuario = idUsuarioGenerado
+            };
+
+            _contexto.Cliente.Add(crearCliente);
             await _contexto.SaveChangesAsync();
         }
 
