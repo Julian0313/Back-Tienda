@@ -18,7 +18,7 @@ namespace Repositorio.Implementacion
 
         public async Task<Paginacion<ProductoRtn>> ObtenerProductoAsync(Parametros parametros)
         {
-             var productos = _contexto.Producto.AsQueryable().Where(e => e.fkIdEstado == 1);
+            var productos = _contexto.Producto.AsQueryable().Where(e => e.fkIdEstado == 1);
 
             if (!string.IsNullOrEmpty(parametros.Buscar))
             {

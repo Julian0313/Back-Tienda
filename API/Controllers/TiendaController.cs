@@ -5,6 +5,8 @@ using Repositorio.Herramientas;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class TiendaController : ControllerBase
     {
         private readonly ITiendaLogica _tiendaLog;

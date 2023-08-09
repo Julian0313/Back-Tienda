@@ -9,6 +9,7 @@ namespace UnidadTrabajo.Interfaz
         ITiendaRepositorio TiendaRepositorio {get; }
         IEmpleadoRepositorio EmpleadoRepositorio {get; }
         IClienteRepositorio ClienteRepositorio {get; }
+        IUsuarioRepositorio usuarioRepositorio {get; }
         Task GuardarCambiosAsync();
     }
 }

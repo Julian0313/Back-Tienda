@@ -35,6 +35,9 @@ namespace API.Extensiones
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
             services.AddScoped<IClienteLogica, ClienteLogica>();
 
+            services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
+            services.AddScoped<IUsuarioLogica, UsuarioLogica>();
+
             services.AddScoped<IUnidadTrabajo, UnidadTrabajo.Implementacion.UnidadTrabajo>();
 
             services.AddAutoMapper(typeof(PerfildeMapeo));
