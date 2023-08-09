@@ -16,6 +16,16 @@ namespace Repositorio.Implementacion
             _contexto = contexto;
         }
 
+        public async Task EditarUsuarioAsync(Usuario usuario)
+        {
+            var editarUsuario = await _contexto.Usuario.FirstOrDefaultAsync(u => u.usuario == usuario.usuario);
+            
+		    editarUsuario.contrasena = usuario.contrasena;
+		    editarUsuario.fechaModificacion = DateTime.Now;
+
+            await _contexto.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<UsuarioRtn>> ObtenerUsuarioAsync(string buscar)
         {
             var usuarioBuscar = _contexto.Usuario.AsQueryable();

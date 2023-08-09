@@ -1,3 +1,4 @@
+using Dominio.Entidades;
 using Logica.Interfaz;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,13 @@ namespace API.Controllers
         public async Task<IActionResult> ObtenerUsuario([FromQuery] string buscar)
         {
             return Ok(await _usuarioLog.ObtenerUsuarioLogica(buscar));
+        }
+
+        [HttpPut]
+        [Route("Editar-Usuario")]
+        public async Task<IActionResult> EditarUsuario(Usuario usuario)
+        {
+            return Ok(await _usuarioLog.EditarUsuarioLogica(usuario));
         }
     }
 }
