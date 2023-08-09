@@ -55,29 +55,58 @@ namespace Repositorio.Implementacion
         public async Task EditarClienteAsync(Cliente cliente)
         {
             var editarCliente = await _contexto.Cliente.FindAsync(cliente.idCliente);
+            var editarUsuario = await _contexto.Usuario.FirstOrDefaultAsync(u => u.usuario == editarCliente.email);
 
-            editarCliente.identificacion = cliente.identificacion;
-            editarCliente.identificacion = cliente.identificacion;
-            editarCliente.primerNombre = cliente.primerNombre;
-            editarCliente.segundoNombre = cliente.segundoNombre;
-            editarCliente.primerApellido = cliente.primerApellido;
-            editarCliente.segundoApellido = cliente.segundoApellido;
-            editarCliente.email = cliente.email;
-            editarCliente.direccion = cliente.direccion;
-            editarCliente.celular = cliente.celular;
-            editarCliente.fechaModificacion = DateTime.Now;
-            editarCliente.fkIdEstado = cliente.fkIdEstado;
-            editarCliente.fkIdUsuario = cliente.fkIdUsuario;
+            if (cliente.email == editarCliente.email & cliente.fkIdEstado == editarCliente.fkIdEstado)
+            {
+                editarCliente.identificacion = cliente.identificacion;
+                editarCliente.identificacion = cliente.identificacion;
+                editarCliente.primerNombre = cliente.primerNombre;
+                editarCliente.segundoNombre = cliente.segundoNombre;
+                editarCliente.primerApellido = cliente.primerApellido;
+                editarCliente.segundoApellido = cliente.segundoApellido;
+                editarCliente.email = cliente.email;
+                editarCliente.direccion = cliente.direccion;
+                editarCliente.celular = cliente.celular;
+                editarCliente.fechaModificacion = DateTime.Now;
+                editarCliente.fkIdEstado = cliente.fkIdEstado;
+                editarCliente.fkIdUsuario = cliente.fkIdUsuario;
 
-            await _contexto.SaveChangesAsync();
+                await _contexto.SaveChangesAsync();
+            }
+            else
+            {
+                editarCliente.identificacion = cliente.identificacion;
+                editarCliente.identificacion = cliente.identificacion;
+                editarCliente.primerNombre = cliente.primerNombre;
+                editarCliente.segundoNombre = cliente.segundoNombre;
+                editarCliente.primerApellido = cliente.primerApellido;
+                editarCliente.segundoApellido = cliente.segundoApellido;
+                editarCliente.email = cliente.email;
+                editarCliente.direccion = cliente.direccion;
+                editarCliente.celular = cliente.celular;
+                editarCliente.fechaModificacion = DateTime.Now;
+                editarCliente.fkIdEstado = cliente.fkIdEstado;
+                editarCliente.fkIdUsuario = cliente.fkIdUsuario;
+
+                editarUsuario.usuario = cliente.email;
+                editarUsuario.fechaModificacion = DateTime.Now;    
+                editarUsuario.fkIdEstado = editarCliente.fkIdEstado;            
+                
+                await _contexto.SaveChangesAsync();
+            }
         }
 
         public async Task EliminarClienteAsync(int id)
         {
             var eliminarCliente = await _contexto.Cliente.FindAsync(id);
+            var eliminarUsuario = await _contexto.Usuario.FirstOrDefaultAsync(u => u.usuario == eliminarCliente.email);
 
             eliminarCliente.fkIdEstado = 0;
             eliminarCliente.fechaModificacion = DateTime.Now;
+
+            eliminarUsuario.fkIdEstado = 0;
+            eliminarUsuario.fechaModificacion = DateTime.Now;
 
             await _contexto.SaveChangesAsync();
         }

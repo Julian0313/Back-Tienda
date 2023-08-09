@@ -44,7 +44,7 @@ namespace Logica.Implementacion
             await _clienteRepo.EditarClienteAsync(cliente);
             await _unidadTrabajo.GuardarCambiosAsync();
 
-            return RespuestaErrores.RespuestaOkay<string>("Cliente editado correctamente id : " + cliente.idCliente);
+            return RespuestaErrores.RespuestaOkay<string>("Cliente con id: "+ cliente.identificacion + " editado correctamente");
         }
 
         public async Task<Respuesta<string>> EliminarClienteLogica(int id)
@@ -59,7 +59,7 @@ namespace Logica.Implementacion
             await _clienteRepo.EliminarClienteAsync(id);
             await _unidadTrabajo.GuardarCambiosAsync();
 
-            return RespuestaErrores.RespuestaOkay<string>("Cliente eliminado correctamente id : " + id);
+            return RespuestaErrores.RespuestaOkay<string>("Cliente con id: "+ id + " editado correctamente");
         }
 
         public async Task<Respuesta<ClienteRtn>> ObtenerClienteIdLogica(int id)
