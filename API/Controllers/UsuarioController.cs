@@ -1,6 +1,5 @@
 using Logica.Interfaz;
 using Microsoft.AspNetCore.Mvc;
-using Repositorio.Herramientas;
 
 namespace API.Controllers
 {
@@ -16,9 +15,9 @@ namespace API.Controllers
 
         [HttpGet]
         [Route("Obtener-Usuario")]
-        public async Task<IActionResult> ObtenerUsuario([FromQuery] Parametros parametros)
+        public async Task<IActionResult> ObtenerUsuario([FromQuery] string buscar)
         {
-            return Ok(await _usuarioLog.ObtenerUsuarioLogica(parametros));
+            return Ok(await _usuarioLog.ObtenerUsuarioLogica(buscar));
         }
     }
 }

@@ -6,6 +6,6 @@ namespace Repositorio.Interfaz
 {
     public interface IUsuarioRepositorio
     {
-        Task<Paginacion<UsuarioRtn>> ObtenerUsuarioAsync(Parametros parametros);
+        Task<IEnumerable<UsuarioRtn>> ObtenerUsuarioAsync(string buscar);
     }
 }

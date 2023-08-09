@@ -16,31 +16,20 @@ namespace Repositorio.Implementacion
             _contexto = contexto;
         }
 
-        public async Task<Paginacion<UsuarioRtn>> ObtenerUsuarioAsync(Parametros parametros)
+        public async Task<IEnumerable<UsuarioRtn>> ObtenerUsuarioAsync(string buscar)
         {
-            var usuario = _contexto.Usuario.AsQueryable();
+            var usuarioBuscar = _contexto.Usuario.AsQueryable();
 
-            if (!string.IsNullOrEmpty(parametros.Buscar))
+            if (!string.IsNullOrEmpty(buscar))
             {
-                usuario = usuario.Where(p => p.usuario.ToLower().Contains(parametros.Buscar));
+                usuarioBuscar = usuarioBuscar.Where(p => p.usuario.ToLower().Contains(buscar));
             }
             
-            var contador = await usuario.CountAsync();
+            var contador = await usuarioBuscar.CountAsync();
 
-            var usuarioPag = await usuario
-                .Include(e => e.Estado)
-                .Skip((parametros.PageIndex - 1) * parametros.PageSize)
-                .Take(parametros.PageSize)                
-                .ToListAsync();
+            var usuario = await usuarioBuscar.Include(e => e.Estado).ToListAsync();
 
-            var paginacion = new Paginacion<UsuarioRtn>(
-                parametros.PageIndex,
-                parametros.PageSize,
-                contador,
-                _mapper.Map<IReadOnlyList<UsuarioRtn>>(usuarioPag)
-            );
-
-            return paginacion;
+            return _mapper.Map<IReadOnlyList<UsuarioRtn>>(usuario);
         }
     }
 }
