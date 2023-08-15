@@ -17,12 +17,12 @@ namespace Logica.Implementacion
             _usuarioRepo = usuarioRepo;
         }
 
-        public async Task<Respuesta<IEnumerable<UsuarioRtn>>> ObtenerUsuarioLogica(string buscar)
+        public async Task<Respuesta<UsuarioRtn>> ObtenerUsuarioLogica(string buscar)
         {
-            IEnumerable<UsuarioRtn> usuario = await _usuarioRepo.ObtenerUsuarioAsync(buscar);
+            UsuarioRtn usuario = await _usuarioRepo.ObtenerUsuarioAsync(buscar);
             return usuario != null ?
             RespuestaErrores.RespuestaOkay(usuario) :
-            RespuestaErrores.RespuestaSinRegistros<IEnumerable<UsuarioRtn>>("No existe usuario con este correo");
+            RespuestaErrores.RespuestaSinRegistros<UsuarioRtn>("No existe usuario con este correo");
         }
 
         public async Task<Respuesta<string>> EditarUsuarioLogica(Usuario usuario)
@@ -38,6 +38,24 @@ namespace Logica.Implementacion
             await _unidadTrabajo.GuardarCambiosAsync();
 
             return RespuestaErrores.RespuestaOkay<string>("Contraseña actualizada correctamente. Usuario : " + usuario.usuario);
+        }
+
+        public async Task<bool> ValidarUsuarioLogica(Usuario request)
+        {
+            var validarUsuario = await _usuarioRepo.ObtenerUsuarioAsync(request.usuario);
+
+            // if(validarUsuario != null && 
+            //     validarUsuario.usuario == request.usuario && 
+            //     validarUsuario.contrasena == request.contrasena)
+            // {
+            //     return true;
+            // }
+            // else
+            // {
+            //     return false;
+            // }
+            return validarUsuario != null && validarUsuario.usuario == request.usuario && validarUsuario.contrasena == request.contrasena;
+            
         }
     }
 }

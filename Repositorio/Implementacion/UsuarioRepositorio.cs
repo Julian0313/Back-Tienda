@@ -19,27 +19,21 @@ namespace Repositorio.Implementacion
         public async Task EditarUsuarioAsync(Usuario usuario)
         {
             var editarUsuario = await _contexto.Usuario.FirstOrDefaultAsync(u => u.usuario == usuario.usuario);
-            
-		    editarUsuario.contrasena = usuario.contrasena;
-		    editarUsuario.fechaModificacion = DateTime.Now;
+
+            editarUsuario.contrasena = usuario.contrasena;
+            editarUsuario.fechaModificacion = DateTime.Now;
 
             await _contexto.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<UsuarioRtn>> ObtenerUsuarioAsync(string buscar)
+        public async Task<UsuarioRtn> ObtenerUsuarioAsync(string buscar)
         {
-            var usuarioBuscar = _contexto.Usuario.AsQueryable();
+            var usuario = await _contexto.Usuario
+                .Include(e => e.Estado)
+                .FirstOrDefaultAsync(p => p.usuario == buscar);
 
-            if (!string.IsNullOrEmpty(buscar))
-            {
-                usuarioBuscar = usuarioBuscar.Where(p => p.usuario.ToLower().Contains(buscar));
-            }
-            
-            var contador = await usuarioBuscar.CountAsync();
+            return _mapper.Map<UsuarioRtn>(usuario);
 
-            var usuario = await usuarioBuscar.Include(e => e.Estado).ToListAsync();
-
-            return _mapper.Map<IReadOnlyList<UsuarioRtn>>(usuario);
         }
     }
 }
