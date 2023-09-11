@@ -36,11 +36,11 @@ namespace Logica.Implementacion
         {
             var editarUsuario = await _usuarioRepo.ObtenerUsuarioAsync(usuario.usuario);
 
-            if(editarUsuario == null)
+            if (editarUsuario == null)
             {
-                return RespuestaErrores.RespuestaError<string>("No exsiste un usuario : "+ usuario.usuario);
+                return RespuestaErrores.RespuestaError<string>("No exsiste un usuario : " + usuario.usuario);
             }
-            
+
             await _usuarioRepo.EditarUsuarioAsync(usuario);
             await _unidadTrabajo.GuardarCambiosAsync();
 
@@ -51,15 +51,10 @@ namespace Logica.Implementacion
         {
             var validarUsuario = await _usuarioRepo.ObtenerUsuarioAsync(usuario);
 
-            if(validarUsuario != null && 
-                validarUsuario.usuario == usuario && 
-                validarUsuario.contrasena == contrasena)
+            if (validarUsuario != null &&
+                validarUsuario.usuario == usuario &&
+                BCrypt.Net.BCrypt.Verify(contrasena, validarUsuario.contrasena))
             {
-            //     return true;
-            // }
-            // else
-            // {
-            //     return false;
                 var keyBytes = Encoding.ASCII.GetBytes(secretKey);
                 var claims = new ClaimsIdentity();
 
@@ -82,11 +77,28 @@ namespace Logica.Implementacion
             }
             else
             {
+                var tresMesesAtras = DateTime.Now.AddMonths(-3);
+                if (validarUsuario.fechaModificacion > tresMesesAtras)
+                {
+                    var tiempoTranscurrido = DateTime.Now - validarUsuario.fechaModificacion;
+                    if (tiempoTranscurrido.HasValue)
+                    {
+                        int dias = (int)tiempoTranscurrido.Value.TotalDays;
+                        int meses = (int)(dias / 31);
+
+                        if (meses == 0)
+                        {
+                            return RespuestaErrores.RespuestaError<string>("Cambio su contraseña hace: " + dias + " dias");
+                        }
+                        else if (meses <= 3)
+                        {
+                            return RespuestaErrores.RespuestaError<string>("Cambio su contraseña hace: " + meses + " meses");
+                        }
+                    }
+                }
                 return RespuestaErrores.RespuestaError<string>("No autorizado");
-                
+
             }
-            // return validarUsuario != null && validarUsuario.usuario == request.usuario && validarUsuario.contrasena == request.contrasena;
-              
         }
     }
 }

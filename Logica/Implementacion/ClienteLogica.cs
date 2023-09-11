@@ -77,6 +77,19 @@ namespace Logica.Implementacion
             RespuestaErrores.RespuestaOkay(cliente) :
             RespuestaErrores.RespuestaSinRegistros<Paginacion<ClienteRtn>>("No hay registros de clientes");
         }
+
+        public async Task<Respuesta<string>> RegistroLogica(SP_Registro registro)
+        {
+             var registroCliente = await _clienteRepo.ObtenerClienteCorreoAsync(registro.email);
+            if (registroCliente != null)
+            {
+                return RespuestaErrores.RespuestaError<string>("Esta direccion de correo se encuentra registrada");
+            }
+            await _clienteRepo.Registro(registro);
+            await _unidadTrabajo.GuardarCambiosAsync();
+
+            return RespuestaErrores.RespuestaOkay<string>("Usuario: " + registro.email + " fue creado con exito");
+        }
     }
 
 }

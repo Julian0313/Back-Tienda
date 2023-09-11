@@ -14,6 +14,7 @@ namespace Dominio.Entidades
         public DbSet<Cargo> Cargo { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<SP_Registro> SP_Registro { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Categoria>()
@@ -74,7 +75,10 @@ namespace Dominio.Entidades
                 .WithMany()
                 .HasForeignKey(usu => usu.fkIdEstado);
 
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<SP_Registro>()
+                .HasNoKey();
+
+            base.OnModelCreating(modelBuilder);            
         }
 
     }

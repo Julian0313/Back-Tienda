@@ -9,6 +9,7 @@ namespace Repositorio.Interfaz
         Task<ClienteRtn> ObtenerClienteIdAsync(int id);
         Task<ClienteRtn> ObtenerClienteCorreoAsync(string correo);
         Task CrearClienteAsync(Cliente cliente);
+        Task Registro(SP_Registro registro);
         Task EditarClienteAsync(Cliente cliente);
         Task EliminarClienteAsync(int id);
     }

@@ -20,7 +20,7 @@ namespace Repositorio.Implementacion
         {
             var editarUsuario = await _contexto.Usuario.FirstOrDefaultAsync(u => u.usuario == usuario.usuario);
 
-            editarUsuario.contrasena = usuario.contrasena;
+            editarUsuario.contrasena = BCrypt.Net.BCrypt.HashPassword(usuario.contrasena);
             editarUsuario.fechaModificacion = DateTime.Now;
 
             await _contexto.SaveChangesAsync();

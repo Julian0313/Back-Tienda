@@ -49,5 +49,12 @@ namespace API.Controllers
         {
             return Ok(await _clienteLog.EliminarClienteLogica(id));
         }
+
+        [HttpPost]
+        [Route("Registro")]
+        public async Task<IActionResult> Registro(SP_Registro registro)
+        {
+            return Ok(await _clienteLog.RegistroLogica(registro));
+        }
     }
 }

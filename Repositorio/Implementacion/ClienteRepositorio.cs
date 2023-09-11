@@ -1,8 +1,11 @@
+using System.Data;
 using AutoMapper;
 using Dominio.Entidades;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Herramientas;
 using Repositorio.Interfaz;
+
 
 namespace Repositorio.Implementacion
 {
@@ -21,7 +24,7 @@ namespace Repositorio.Implementacion
             var usuario = new Usuario
             {
                 usuario = cliente.email,
-                contrasena = cliente.identificacion,
+                contrasena = BCrypt.Net.BCrypt.HashPassword(cliente.identificacion),
                 fkIdEstado = 1,
                 fechaCreacion = DateTime.Now,
                 fechaModificacion = null
@@ -90,9 +93,9 @@ namespace Repositorio.Implementacion
                 editarCliente.fkIdUsuario = cliente.fkIdUsuario;
 
                 editarUsuario.usuario = cliente.email;
-                editarUsuario.fechaModificacion = DateTime.Now;    
-                editarUsuario.fkIdEstado = editarCliente.fkIdEstado;            
-                
+                editarUsuario.fechaModificacion = DateTime.Now;
+                editarUsuario.fkIdEstado = editarCliente.fkIdEstado;
+
                 await _contexto.SaveChangesAsync();
             }
         }
@@ -157,6 +160,25 @@ namespace Repositorio.Implementacion
                   .FirstOrDefaultAsync(x => x.idCliente == id);
 
             return _mapper.Map<ClienteRtn>(cliente);
+        }
+
+        public async Task Registro(SP_Registro registro)
+        {
+            var sql = "EXEC sp_registro @identificacion, @primerNombre, @segundoNombre, @primerApellido, @segundoApellido, @email, @direccion, @celular, @contrasena";
+            
+            var contrasena = BCrypt.Net.BCrypt.HashPassword(registro.contrasena);
+
+            await _contexto.Database.ExecuteSqlRawAsync(sql,
+            
+            new SqlParameter("@identificacion", registro.identificacion),
+            new SqlParameter("@primerNombre", registro.primerNombre),
+            new SqlParameter("@segundoNombre", registro.segundoNombre),
+            new SqlParameter("@primerApellido", registro.primerApellido),
+            new SqlParameter("@segundoApellido", registro.segundoApellido),
+            new SqlParameter("@email", registro.email),
+            new SqlParameter("@direccion", registro.direccion),
+            new SqlParameter("@celular", registro.celular),
+            new SqlParameter("@contrasena", contrasena));
         }
     }
 }
