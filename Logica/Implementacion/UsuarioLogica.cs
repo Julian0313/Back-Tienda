@@ -1,9 +1,14 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using Dominio.Entidades;
 using Logica.Herramientas;
 using Logica.Interfaz;
-using Repositorio.Herramientas;
+using Microsoft.IdentityModel.Tokens;
 using Repositorio.Interfaz;
 using UnidadTrabajo.Interfaz;
+using Microsoft.Extensions.Configuration;
+
 
 namespace Logica.Implementacion
 {
@@ -11,10 +16,12 @@ namespace Logica.Implementacion
     {
         private readonly IUsuarioRepositorio _usuarioRepo;
         private readonly IUnidadTrabajo _unidadTrabajo;
-        public UsuarioLogica(IUsuarioRepositorio usuarioRepo, IUnidadTrabajo unidadTrabajo)
+        private readonly string secretKey;
+        public UsuarioLogica(IUsuarioRepositorio usuarioRepo, IUnidadTrabajo unidadTrabajo, IConfiguration config)
         {
             _unidadTrabajo = unidadTrabajo;
             _usuarioRepo = usuarioRepo;
+            secretKey = config.GetSection("settings").GetSection("secretKey").ToString();
         }
 
         public async Task<Respuesta<UsuarioRtn>> ObtenerUsuarioLogica(string buscar)
@@ -40,22 +47,46 @@ namespace Logica.Implementacion
             return RespuestaErrores.RespuestaOkay<string>("Contraseña actualizada correctamente. Usuario : " + usuario.usuario);
         }
 
-        public async Task<bool> ValidarUsuarioLogica(Usuario request)
+        public async Task<Respuesta<string>> ValidarUsuarioLogica(string usuario, string contrasena)
         {
-            var validarUsuario = await _usuarioRepo.ObtenerUsuarioAsync(request.usuario);
+            var validarUsuario = await _usuarioRepo.ObtenerUsuarioAsync(usuario);
 
-            // if(validarUsuario != null && 
-            //     validarUsuario.usuario == request.usuario && 
-            //     validarUsuario.contrasena == request.contrasena)
-            // {
+            if(validarUsuario != null && 
+                validarUsuario.usuario == usuario && 
+                validarUsuario.contrasena == contrasena)
+            {
             //     return true;
             // }
             // else
             // {
             //     return false;
-            // }
-            return validarUsuario != null && validarUsuario.usuario == request.usuario && validarUsuario.contrasena == request.contrasena;
-            
+                var keyBytes = Encoding.ASCII.GetBytes(secretKey);
+                var claims = new ClaimsIdentity();
+
+                claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario));
+
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = claims,
+                    Expires = DateTime.UtcNow.AddMinutes(5),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature)
+                };
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenConfig = tokenHandler.CreateToken(tokenDescriptor);
+
+                string tokenCreado = tokenHandler.WriteToken(tokenConfig);
+
+                return RespuestaErrores.RespuestaOkay<string>(tokenCreado);
+
+            }
+            else
+            {
+                return RespuestaErrores.RespuestaError<string>("No autorizado");
+                
+            }
+            // return validarUsuario != null && validarUsuario.usuario == request.usuario && validarUsuario.contrasena == request.contrasena;
+              
         }
     }
 }

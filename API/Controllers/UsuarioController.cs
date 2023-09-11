@@ -36,36 +36,37 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("Validar")]
-        public IActionResult Validar([FromQuery] Usuario request)
+        public async Task<IActionResult> Validar([FromQuery] string usuario, string contrasena)
         {
-            var validarUsuario = _usuarioLog.ValidarUsuarioLogica(request);
+            return Ok(await _usuarioLog.ValidarUsuarioLogica(usuario,contrasena));
+            // var validarUsuario = _usuarioLog.ValidarUsuarioLogica(request);
 
-            if (validarUsuario.Result == true)
-            {
-                var keyBytes = Encoding.ASCII.GetBytes(secretKey);
-                var claims = new ClaimsIdentity();
+            // if (validarUsuario.Result == true)
+            // {
+            //     var keyBytes = Encoding.ASCII.GetBytes(secretKey);
+            //     var claims = new ClaimsIdentity();
 
-                claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, request.usuario));
+            //     claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, request.usuario));
 
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = claims,
-                    Expires = DateTime.UtcNow.AddMinutes(5),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature)
-                };
+            //     var tokenDescriptor = new SecurityTokenDescriptor
+            //     {
+            //         Subject = claims,
+            //         Expires = DateTime.UtcNow.AddMinutes(5),
+            //         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(keyBytes), SecurityAlgorithms.HmacSha256Signature)
+            //     };
 
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenConfig = tokenHandler.CreateToken(tokenDescriptor);
+            //     var tokenHandler = new JwtSecurityTokenHandler();
+            //     var tokenConfig = tokenHandler.CreateToken(tokenDescriptor);
 
-                string tokenCreado = tokenHandler.WriteToken(tokenConfig);
+            //     string tokenCreado = tokenHandler.WriteToken(tokenConfig);
 
-                return StatusCode(StatusCodes.Status200OK, new { token = tokenCreado });
+            //     return StatusCode(StatusCodes.Status200OK, new { token = tokenCreado });
 
-            }
-            else
-            {
-                return StatusCode(StatusCodes.Status401Unauthorized, new { token = "" });
-            }
+            // }
+            // else
+            // {
+            //     return StatusCode(StatusCodes.Status401Unauthorized, new { token = "" });
+            // }
         }
     }
 }

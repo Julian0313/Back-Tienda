@@ -8,6 +8,6 @@ namespace Logica.Interfaz
     {
         Task<Respuesta<UsuarioRtn>> ObtenerUsuarioLogica(string buscar);
         Task<Respuesta<string>> EditarUsuarioLogica(Usuario usuario);
-        Task<bool> ValidarUsuarioLogica(Usuario usuario);
+        Task<Respuesta<string>> ValidarUsuarioLogica(string usuario, string contrasena);
     }
 }
