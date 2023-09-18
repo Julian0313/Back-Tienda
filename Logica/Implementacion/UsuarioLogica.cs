@@ -50,6 +50,7 @@ namespace Logica.Implementacion
         public async Task<Respuesta<string>> ValidarUsuarioLogica(string usuario, string contrasena)
         {
             var validarUsuario = await _usuarioRepo.ObtenerUsuarioAsync(usuario);
+            string rol = validarUsuario.fkIdRol;
 
             if (validarUsuario != null &&
                 validarUsuario.usuario == usuario &&
@@ -57,7 +58,7 @@ namespace Logica.Implementacion
             {
                 var keyBytes = Encoding.ASCII.GetBytes(secretKey);
                 var claims = new ClaimsIdentity();
-
+                claims.AddClaim(new Claim(ClaimTypes.Role, rol));
                 claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario));
 
                 var tokenDescriptor = new SecurityTokenDescriptor

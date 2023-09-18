@@ -11,5 +11,6 @@ namespace Dominio.Entidades
 		public string direccion { get; set; }
 		public string celular { get; set; }
 		public string contrasena { get; set; }
+		public int fkIdRol { get; set; }
 	}
 }

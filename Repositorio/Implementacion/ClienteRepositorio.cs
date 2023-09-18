@@ -27,7 +27,8 @@ namespace Repositorio.Implementacion
                 contrasena = BCrypt.Net.BCrypt.HashPassword(cliente.identificacion),
                 fkIdEstado = 1,
                 fechaCreacion = DateTime.Now,
-                fechaModificacion = null
+                fechaModificacion = null,
+                fkIdRol = 2
             };
             _contexto.Usuario.Add(usuario);
             await _contexto.SaveChangesAsync();
@@ -164,7 +165,7 @@ namespace Repositorio.Implementacion
 
         public async Task Registro(SP_Registro registro)
         {
-            var sql = "EXEC sp_registro @identificacion, @primerNombre, @segundoNombre, @primerApellido, @segundoApellido, @email, @direccion, @celular, @contrasena";
+            var sql = "EXEC sp_registro @identificacion, @primerNombre, @segundoNombre, @primerApellido, @segundoApellido, @email, @direccion, @celular, @contrasena, @rol";
             
             var contrasena = BCrypt.Net.BCrypt.HashPassword(registro.contrasena);
 
@@ -178,7 +179,8 @@ namespace Repositorio.Implementacion
             new SqlParameter("@email", registro.email),
             new SqlParameter("@direccion", registro.direccion),
             new SqlParameter("@celular", registro.celular),
-            new SqlParameter("@contrasena", contrasena));
+            new SqlParameter("@contrasena", contrasena),
+            new SqlParameter("@rol", registro.fkIdRol));
         }
     }
 }

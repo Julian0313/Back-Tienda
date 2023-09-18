@@ -14,6 +14,7 @@ namespace Dominio.Entidades
         public DbSet<Cargo> Cargo { get; set; }
         public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Rol> Rol { get; set; }
         public DbSet<SP_Registro> SP_Registro { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -37,6 +38,9 @@ namespace Dominio.Entidades
 
             modelBuilder.Entity<Cliente>()
             .HasKey(cli => cli.idCliente);
+
+             modelBuilder.Entity<Rol>()
+            .HasKey(cli => cli.idRol);
             
             //Llaves foraneas 
 
@@ -74,6 +78,11 @@ namespace Dominio.Entidades
                 .HasOne(usu => usu.Estado)
                 .WithMany()
                 .HasForeignKey(usu => usu.fkIdEstado);
+            
+            modelBuilder.Entity<Usuario>()
+                .HasOne(usu => usu.Rol)
+                .WithMany()
+                .HasForeignKey(usu => usu.fkIdRol);
 
             modelBuilder.Entity<SP_Registro>()
                 .HasNoKey();

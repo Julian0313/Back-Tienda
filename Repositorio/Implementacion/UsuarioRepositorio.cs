@@ -30,6 +30,7 @@ namespace Repositorio.Implementacion
         {
             var usuario = await _contexto.Usuario
                 .Include(e => e.Estado)
+                .Include(e => e.Rol)
                 .FirstOrDefaultAsync(p => p.usuario == buscar);
 
             return _mapper.Map<UsuarioRtn>(usuario);
