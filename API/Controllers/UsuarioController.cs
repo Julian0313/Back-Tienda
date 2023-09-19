@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Dominio.Entidades;
 using Logica.Interfaz;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 

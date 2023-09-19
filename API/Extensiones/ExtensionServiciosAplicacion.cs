@@ -3,6 +3,7 @@ using Logica.Implementacion;
 using Logica.Interfaz;
 using LogicaNegocio.Implementacion;
 using LogicaNegocio.Interfaz;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Repositorio.Herramientas;
 using Repositorio.Implementacion;
@@ -48,6 +49,14 @@ namespace API.Extensiones
                     policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
                 });
             });
+            services.AddScoped<IAuthorizationHandler, DynamicRoleHandler>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DynamicRolePolicy", policy =>
+                    policy.Requirements.Add(new DynamicRoleRequirement("Admin")));
+            });
+
 
             return services;
         }

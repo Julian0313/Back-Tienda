@@ -1,3 +1,4 @@
+using API.Extensiones;
 using Dominio.Entidades;
 using Logica.Interfaz;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [DynamicRoleAuthorize] 
     public class ClienteController : ControllerBase
     {
         private readonly IClienteLogica _clienteLog;

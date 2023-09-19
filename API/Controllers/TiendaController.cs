@@ -1,3 +1,4 @@
+using API.Extensiones;
 using Logica.Interfaz;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,8 +8,7 @@ using Repositorio.Herramientas;
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
+    [ApiController]    
     public class TiendaController : ControllerBase
     {
         private readonly ITiendaLogica _tiendaLog;

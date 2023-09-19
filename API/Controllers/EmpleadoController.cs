@@ -1,12 +1,15 @@
+using API.Extensiones;
 using Dominio.Entidades;
 using Logica.Interfaz;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repositorio.Herramientas;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [ApiController]    
+    [DynamicRoleAuthorize] 
     public class EmpleadoController : ControllerBase
     {
         private readonly IEmpleadoLogica _empleadoLog;
